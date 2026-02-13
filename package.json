@@ -13,6 +13,7 @@
     "@ai-sdk/openai": "^1.0.0",
     "@hookform/resolvers": "^3.9.0",
     "ai": "^6.0.86",
+    "convex": "^1.31.7",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
