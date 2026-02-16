@@ -1,10 +1,14 @@
-import React from "react";
-import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
+import React from 'react';
+import { useQuery } from 'convex/react';
+import { api } from '../../convex/_generated/api';
+import { Doc } from '../../convex/_generated/dataModel';
 
-const AbsentTable = () => {
-  const results = useQuery(api.padres.getUserTable);
+interface AbsentTableProps {
+  // Puedes agregar props aquí si es necesario
+  users: Doc<'padres'>[]; // Ejemplo de prop para recibir datos de padres
+}
 
+const AbsentTable = ({ users }: AbsentTableProps) => {
   return (
     <div className="flex flex-col p-5 m-3">
       <table>
@@ -22,8 +26,8 @@ const AbsentTable = () => {
           </tr>
         </thead>
         <tbody>
-          {results && results.length > 0 ? (
-            results.map((item) => (
+          {users && users.length > 0 ? (
+            users.map((item) => (
               <tr key={item._id} className="text-center">
                 <td className="text-blue-100 p-3 border-b border-gray-400">
                   {item.nameFather}

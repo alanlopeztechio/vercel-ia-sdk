@@ -1,9 +1,10 @@
-import React from "react";
+import React from 'react';
+import { Doc } from '../../convex/_generated/dataModel';
 
 const HeaderAbsentTable = () => {
   return (
     <div className="flex justify-around items-center">
-      <div className="text-start ml-5 p-5">
+      <div className="text-start p-5">
         <h3 className="block text-xl font-medium text-slate-300">
           Registro de ausencias
         </h3>
@@ -11,19 +12,19 @@ const HeaderAbsentTable = () => {
       <div className="align-middle justify-center" id="search-father">
         <label
           htmlFor="father'filter"
-          className="tracking-wide text-slate-300 text-lg font-medium mx-2"
+          className="tracking-wide text-slate-300 text-lg font-medium mr-3"
         >
           Filtrar por padre
         </label>
         <input
-          className="w-3xs rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-3 mx-2 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40 placeholder:text-slate-500"
+          className="w-3xs rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-3 ml-3 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40 placeholder:text-slate-500"
           type="search"
           name="search-student"
           id="searchFather"
           placeholder="Ingresa el nombre del padre"
         />
       </div>
-      <div className="mr-5" id="filters-father">
+      <div className="" id="filters-father">
         <div className="flex flex-row gap-4 items-center" id="filter-status">
           <label
             htmlFor="filter-status-label"
