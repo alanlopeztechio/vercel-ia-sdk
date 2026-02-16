@@ -1,5 +1,5 @@
-import { mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { mutation, query } from "./_generated/server";
 
 export const createFather = mutation({
   args: {
@@ -18,5 +18,11 @@ export const createFather = mutation({
       grade: args.grade,
     });
     return newFatherId;
+  },
+});
+
+export const getUserTable = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("padres").collect();
   },
 });
