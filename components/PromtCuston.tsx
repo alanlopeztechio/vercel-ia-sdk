@@ -1,12 +1,9 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 
-import { useQuery } from 'convex/react';
 import { obtenerRespuestaIA } from '@/app/actions';
-import UsersComments from './UsersComments';
 
 const schema = z.object({
   texto: z.string().min(1, 'El texto es obligatorio'),
