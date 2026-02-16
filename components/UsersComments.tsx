@@ -6,23 +6,23 @@ import { obtenerComentarios } from '@/app/actions';
 import { MoreHorizontal, Phone } from 'lucide-react';
 
 const UsersComments = () => {
-  const [resultados, setResultados] = React.useState<string[]>([]);
+  // const [resultados, setResultados] = React.useState<string[]>([]);
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  // const onSubmit = async (event: React) => {
+  //   event.preventDefault();
 
-    const payload = {
-      commentarios: users?.map((u) => u.comments) || [],
-    };
+  //   const payload = {
+  //     commentarios: users?.map((u) => u.comments) || [],
+  //   };
 
-    const resultadosBack = await obtenerComentarios(payload);
+  //   const resultadosBack = await obtenerComentarios(payload);
 
-    if (resultadosBack.success) {
-      setResultados(resultadosBack.comments.map((c) => c.commentarios));
-    }
-  };
+  //   if (resultadosBack.success) {
+  //     setResultados(resultadosBack.comments.map((c) => c.commentarios));
+  //   }
+  // };
 
-  const users = useQuery(api.users.getComments);
+  // const users = useQuery(api.users.getComments);
 
   return (
     <div className="flex h-full w-full max-w-xl flex-col rounded-2xl border border-slate-800 bg-slate-950/60 pt-3">
