@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^3.9.0",
     "ai": "^6.0.86",
     "convex": "^1.31.7",
+    "lucide-react": "^0.564.0",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
