@@ -1,21 +1,17 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-
-import { useQuery } from 'convex/react';
-import { obtenerRespuestaIA } from '@/app/actions';
-import UsersComments from './UsersComments';
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { obtenerRespuestaIA } from "@/app/actions";
 
 const schema = z.object({
-  texto: z.string().min(1, 'El texto es obligatorio'),
+  texto: z.string().min(1, "El texto es obligatorio"),
 });
 
 type FormValues = z.infer<typeof schema>;
 
 const PromtCuston = () => {
-  const [resultado, setResultado] = useState('');
+  const [resultado, setResultado] = useState("");
   const [cargando, setCargando] = useState(false);
 
   const {
@@ -24,7 +20,7 @@ const PromtCuston = () => {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { texto: '' },
+    defaultValues: { texto: "" },
   });
 
   const onSubmit = async (data: FormValues) => {
@@ -33,7 +29,7 @@ const PromtCuston = () => {
     const response = await obtenerRespuestaIA(data.texto);
 
     if (response.success) {
-      setResultado(response.text || '');
+      setResultado(response.text || "");
     } else {
       alert(response.error);
     }
@@ -70,7 +66,7 @@ const PromtCuston = () => {
               <textarea
                 id="texto"
                 rows={4}
-                {...register('texto')}
+                {...register("texto")}
                 placeholder="Ej. Escribe una descripción creativa para mi proyecto de IA..."
                 className="w-full resize-none rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/40 placeholder:text-slate-500"
               />
@@ -92,7 +88,7 @@ const PromtCuston = () => {
                   Pensando...
                 </span>
               ) : (
-                'Generar texto'
+                "Generar texto"
               )}
             </button>
           </form>

@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import HeaderAbsentTable from './HeaderAbsentTable';
-import AbsentTable from './AbsentTable';
-import FooterAbsentTable from './FooterAbsentTable';
-import { Doc } from '../../convex/_generated/dataModel';
-import { useQuery } from 'convex/react';
-import { api } from '../../convex/_generated/api';
-import Report from './Report';
+import { useState } from "react";
+import HeaderAbsentTable from "./HeaderAbsentTable";
+import AbsentTable from "./AbsentTable";
+import FooterAbsentTable from "./FooterAbsentTable";
+import { useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import Report from "./Report";
 
 const ViewAbsentTable = () => {
   const [datos, setDatos] = useState<string[] | null>(null);
