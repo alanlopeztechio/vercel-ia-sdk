@@ -2,28 +2,30 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  usuarios: defineTable({
+  users: defineTable({
     name: v.string(),
     password: v.string(),
     email: v.string(),
   }),
-  compras: defineTable({
-    producto: v.string(),
-    monto: v.number(),
+  purchases: defineTable({
+    product: v.string(),
+    amount: v.number(),
   }),
-  reclamos: defineTable({
-    comentario: v.string(),
-    idCompra: v.id("compras"),
-    idUsuario: v.id("usuarios"),
-    titulo: v.string(),
+  complaints: defineTable({
+    title: v.string(),
+    comment: v.string(),
+    idPurchase: v.id("purchases"),
+    idUser: v.id("users"),
   })
-    .index("by_compra", ["idCompra"])
-    .index("by_usuario", ["idUsuario"]),
-  reportes: defineTable({
-    idReclamo: v.id("reclamos"),
-    idCompra: v.id("compras"),
-    solucion: v.string(),
-  }),
+    .index("by_purchase", ["idPurchase"])
+    .index("by_user", ["idUser"]),
+  reports: defineTable({
+    idComplaint: v.id("complaints"),
+    idPurchase: v.id("purchases"),
+    solution: v.string(),
+  })
+    .index("by_complaint", ["idComplaint"])
+    .index("by_purchase", ["idPurchase"]),
 });
 
 // Tener una tabla con el campo nombre padre nombre alumno, dias que falto y la fecha que falto y el grado que se encuentra el alumno
