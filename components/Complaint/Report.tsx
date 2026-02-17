@@ -1,5 +1,4 @@
-import React from 'react';
-import { Doc } from '../../convex/_generated/dataModel';
+import React from "react";
 
 interface ReportProps {
   datos: string[];

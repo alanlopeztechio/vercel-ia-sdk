@@ -5,21 +5,20 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useMutation } from "convex/react";
-import { api } from "../../../convex/_generated/api";
+import { api } from "../../../../convex/_generated/api";
 import Link from "next/link";
 
 const schema = z.object({
-  nameFather: z
+  name: z
     .string()
     .min(2, "El nombre del padre debe ser mayor a 2 caracteres")
     .max(50, "El nombre del padre no puede ser mayor a 50 caracteres"),
-  nameStudent: z
+  email: z.string().email(),
+  password: z
     .string()
-    .min(1, "El nombre del alumno es obligatorio")
-    .max(50, "El nombre del alumno no puede ser mayor a 50 caracteres"),
-  absentDays: z.number(),
-  dateAbsent: z.string().min(1, "La fecha es obligatoria"),
-  grade: z.string().min(1, "El grado es obligatorio"),
+    .min(8, "La contraseña debe tener minimo 8 caracteres")
+    .regex(/[A-Z]/, "La contraseña debe tener al menos 1 mayuscula")
+    .regex(/[1-9]/, "La contraseña debe tener al menos 1 numero"),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -27,7 +26,7 @@ type FormValues = z.infer<typeof schema>;
 export default function CrearRegistro() {
   const [resultado, setResultado] = useState("");
   const [cargando, setCargando] = useState(false);
-  const createFather = useMutation(api.padres.createFather);
+  const createUser = useMutation(api.users.insertUser);
 
   const {
     register,
@@ -40,24 +39,18 @@ export default function CrearRegistro() {
 
   const onSubmit = async (data: FormValues) => {
     setCargando(true);
-
     try {
-      const dateTimestamp = new Date(data.dateAbsent).getTime();
-      await createFather({
-        nameFather: data.nameFather,
-        nameStudent: data.nameStudent,
-        absentDays: data.absentDays,
-        dateAbsent: dateTimestamp,
-        grade: data.grade,
+      await createUser({
+        name: data.name,
+        email: data.email,
+        password: data.password,
       });
-
       setResultado("✓ Registro guardado exitosamente");
-      reset();
-      setTimeout(() => setResultado(""), 3000);
+      reset(); // reiniciar los campos del formulario
+      setTimeout(() => setResultado(""), 3000); // simular asincronia
     } catch (error) {
       setResultado("✗ Error al guardar el registro");
     }
-
     setCargando(false);
   };
 
@@ -67,130 +60,78 @@ export default function CrearRegistro() {
         {/* Card Formulario */}
         <section className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-xl backdrop-blur">
           <div className="pointer-events-none absolute inset-x-0 -top-24 -z-10 h-48 bg-gradient-to-b from-purple-500/20 to-transparent blur-3xl" />
-
           <header className="mb-8">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-400">
-              Nuevo Registro
+              Nuevo Registro de usuario
             </p>
             <h1 className="mt-1 text-3xl font-semibold text-slate-50">
-              Registrar Inasistencia
+              Registrar usuario
             </h1>
             <p className="mt-2 text-sm text-slate-400">
-              Completa todos los campos para registrar una inasistencia de
-              estudiante.
+              Completa todos los campos para registrar un usuario
             </p>
           </header>
-
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            {/* Nombre del Padre */}
+            {/* Nombre del usuario */}
             <div className="space-y-1.5">
               <label
-                htmlFor="nameFather"
+                htmlFor="nameUser"
                 className="block text-xs font-medium uppercase tracking-wide text-slate-300"
               >
-                Nombre del Padre
+                Nombre del Usuario
               </label>
               <input
-                id="nameFather"
+                id="nameUser"
                 type="text"
-                {...register("nameFather")}
-                placeholder="Ej. Juan García López"
+                {...register("name")}
+                placeholder="Ej. slash3d"
                 className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40 placeholder:text-slate-500"
               />
-              {errors.nameFather && (
-                <p className="text-xs font-medium text-red-400">
-                  {errors.nameFather.message}
+              {errors.name && (
+                <p className="text-xs font-medium mt-1 text-red-400">
+                  {errors.name.message}
                 </p>
               )}
             </div>
-
-            {/* Nombre del Alumno */}
+            {/* email user*/}
             <div className="space-y-1.5">
               <label
-                htmlFor="nameStudent"
+                htmlFor="emailUser"
                 className="block text-xs font-medium uppercase tracking-wide text-slate-300"
               >
-                Nombre del Alumno
+                email
               </label>
               <input
-                id="nameStudent"
+                id="emailUser"
                 type="text"
-                {...register("nameStudent")}
-                placeholder="Ej. Carlos García García"
+                {...register("email")}
+                placeholder="Ej. hola@ejemplo.com"
                 className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40 placeholder:text-slate-500"
               />
-              {errors.nameStudent && (
-                <p className="text-xs font-medium text-red-400">
-                  {errors.nameStudent.message}
+              {errors.email && (
+                <p className="text-xs font-medium mt-1 text-red-400">
+                  {errors.email.message}
                 </p>
               )}
             </div>
-
-            {/* Días que Faltó */}
+            {/* password */}
             <div className="space-y-1.5">
               <label
-                htmlFor="absentDays"
+                htmlFor="passwordUser"
                 className="block text-xs font-medium uppercase tracking-wide text-slate-300"
               >
-                Días que Faltó
+                Contraseña
               </label>
               <input
-                id="absentDays"
-                type="number"
-                {...register("absentDays", { valueAsNumber: true })}
-                placeholder="Ej. 3 días, 2 días"
+                id="passwordUser"
+                type="password"
+                {...register("password")}
+                placeholder="Ingresa tu contraseña"
                 className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40 placeholder:text-slate-500"
               />
-              {errors.absentDays && (
-                <p className="text-xs font-medium text-red-400">
-                  {errors.absentDays.message}
-                </p>
-              )}
-            </div>
-            {/* Fecha */}
-            <div className="space-y-1.5">
-              <label
-                htmlFor="dateAbsent"
-                className="block text-xs font-medium uppercase tracking-wide text-slate-300"
-              >
-                Fecha de la Inasistencia
-              </label>
-              <input
-                id="dateAbsent"
-                type="date"
-                {...register("dateAbsent")}
-                className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40"
-              />
-              {errors.dateAbsent && (
-                <p className="text-xs font-medium text-red-400">
-                  {errors.dateAbsent.message}
-                </p>
-              )}
-            </div>
-            {/* Grado */}
-            <div className="space-y-1.5">
-              <label
-                htmlFor="grade"
-                className="block text-xs font-medium uppercase tracking-wide text-slate-300"
-              >
-                Grado
-              </label>
-              <select
-                id="grade"
-                {...register("grade")}
-                className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40"
-              >
-                <option value="">Selecciona un grado</option>
-                <option value="1">Primero</option>
-                <option value="2">Segundo</option>
-                <option value="3">Tercero</option>
-                <option value="4">Cuarto</option>
-                <option value="5">Quinto</option>
-                <option value="6">Sexto</option>
-              </select>
-              {errors.grade && (
-                <p className="text-xs font-medium text-red-400">
-                  {errors.grade.message}
+              {errors.password && (
+                <p className="text-xs font-medium mt-1 text-red-400">
+                  {errors.password.message}
                 </p>
               )}
             </div>
@@ -206,7 +147,6 @@ export default function CrearRegistro() {
                 {resultado}
               </div>
             )}
-
             {/* Botones */}
             <div className="flex gap-3 pt-2">
               <button
@@ -223,7 +163,6 @@ export default function CrearRegistro() {
                   "Guardar Registro"
                 )}
               </button>
-
               <Link href="/">
                 <button
                   type="button"

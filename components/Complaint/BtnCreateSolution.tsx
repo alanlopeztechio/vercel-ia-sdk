@@ -1,10 +1,10 @@
-import React, { useTransition } from 'react';
-import { Doc } from '../../convex/_generated/dataModel';
-import { obtenerComentarios } from '@/app/actions';
+import React, { useTransition } from "react";
+import { Doc } from "../../convex/_generated/dataModel";
+import { obtenerComentarios } from "@/app/actions";
 
 interface FooterAbsentTableProps {
   onChange: (value: string[]) => void;
-  users: Doc<'padres'>[];
+  users: Doc<"usuarios">[];
 }
 
 const FooterAbsentTable: React.FC<FooterAbsentTableProps> = ({
