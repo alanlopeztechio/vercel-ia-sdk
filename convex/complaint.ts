@@ -4,7 +4,7 @@ import { ConvexError, v } from "convex/values";
 
 export const getComplaint = query({
   handler: async (ctx) => {
-    return ctx.db.query("users").collect();
+    return ctx.db.query("complaints").collect();
   },
 });
 
