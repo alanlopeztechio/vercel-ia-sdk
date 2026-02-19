@@ -1,7 +1,7 @@
 import BtnDeleteUser from "@/app/user/delete/page";
 import BtnEditUser from "@/app/user/edit/page";
 import React, { useState } from "react";
-import { Doc, Id } from "../../../convex/_generated/dataModel";
+import { Doc } from "../../../convex/_generated/dataModel";
 import { toast } from "sonner";
 
 interface DataTableUsersProps {
@@ -9,13 +9,10 @@ interface DataTableUsersProps {
   key: string;
 }
 
-const DataTableUsers: React.FC<DataTableUsersProps> = ({ user, key }) => {
+const DataTableUsers: React.FC<DataTableUsersProps> = ({ user }) => {
   const [exitoso, setExitoso] = useState(false);
   return (
-    <tr
-      key={key as Id<"users">}
-      className="transition hover:bg-slate-800/30 group"
-    >
+    <tr key={user._id} className="transition hover:bg-slate-800/30 group">
       <td className="px-6 py-4">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-600">
