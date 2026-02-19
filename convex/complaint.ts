@@ -47,6 +47,7 @@ export const createComplaint = mutation({
 export const updateComplaint = mutation({
   args: {
     id: v.id('complaints'),
+    title: v.string(),
     comment: v.string(),
   },
   handler: async (ctx, args) => {

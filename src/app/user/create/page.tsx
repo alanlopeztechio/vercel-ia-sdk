@@ -8,7 +8,7 @@ import { useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
 import Link from 'next/link';
 
-const schema = z.object({
+export const formSchema = z.object({
   name: z
     .string()
     .min(2, 'El nombre del padre debe ser mayor a 2 caracteres')
@@ -21,7 +21,7 @@ const schema = z.object({
     .regex(/[1-9]/, 'La contraseña debe tener al menos 1 numero'),
 });
 
-type FormValues = z.infer<typeof schema>;
+type FormValues = z.infer<typeof formSchema>;
 
 export default function CrearRegistro() {
   const [resultado, setResultado] = useState('');
@@ -34,7 +34,7 @@ export default function CrearRegistro() {
     formState: { errors },
     reset,
   } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(formSchema),
   });
 
   const onSubmit = async (data: FormValues) => {

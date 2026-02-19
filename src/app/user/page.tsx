@@ -1,7 +1,7 @@
-import ViewAbsentTable from "../../../components/viewUsers/ViewUserTable";
+import ViewUserTable from "../../components/viewUsers/ViewUserTable";
 
 const page = () => {
-  return <ViewAbsentTable />;
+  return <ViewUserTable />;
 };
 
 export default page;

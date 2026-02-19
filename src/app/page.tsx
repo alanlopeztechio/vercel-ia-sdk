@@ -1,6 +1,6 @@
 "use client";
 
-import ViewAbsentTable from "../../components/viewUsers/ViewUserTable";
+import ViewAbsentTable from "../components/viewUsers/ViewUserTable";
 
 export default function Home() {
   return (
