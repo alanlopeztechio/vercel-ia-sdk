@@ -74,7 +74,7 @@ export async function createReports() {
   console.log('Iniciando generación de reportes...');
   try {
     const { text, steps, response } = await generateText({
-      model: google('gemini-2.5-flash'),
+      model: google('gemini-2.5-pro'),
       tools: {
         getClaims: tool({
           description: 'Obtiene los reclamos de la base de datos',
@@ -131,7 +131,8 @@ export async function createReports() {
                     - Redacta una respuesta formal, empática y profesional.
                 3. Una vez tengas todas las respuestas listas, usa la herramienta 'createReport'.
                     - Debes enviar todos los reportes juntos en una lista.
-                    - Asegúrate estrictamente de usar el campo '_id' (guion bajo id) para el identificador del reclamo y 'idPurchase' para la compra.`,
+                    - Asegúrate estrictamente de usar el campo '_id' (guion bajo id) para el identificador del reclamo y 'idPurchase' para la compra.
+                Si no puedes acceder a una tool explicame el por qu eno puedes acceder a la herramienta y continua con el siguiente paso.`,
     });
 
     return {
