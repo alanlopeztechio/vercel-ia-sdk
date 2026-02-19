@@ -1,7 +1,7 @@
 import BtnDeleteUser from '@/app/user/delete/page';
 import BtnEditUser from '@/app/user/edit/page';
 import React, { useState } from 'react';
-import { Doc, Id } from '../../../convex/_generated/dataModel';
+import { Doc } from '../../../convex/_generated/dataModel';
 import { toast } from 'sonner';
 
 interface DataTableUsersProps {

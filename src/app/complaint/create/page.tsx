@@ -19,10 +19,10 @@ import { Id } from "../../../../convex/_generated/dataModel";
  */
 
 const formSchema = z.object({
-  comment: z.string().min(4, "El titulo muy corto, ingresa uno mas largo"),
+  comment: z.string().min(4, "Comentario muy corto"),
   purchaseId: z.string(),
   userId: z.string(),
-  title: z.string().min(2, "Comentario muy corto"),
+  title: z.string().min(2, "El titulo muy corto, ingresa uno mas largo"),
 });
 
 type formValues = z.infer<typeof formSchema>;
@@ -45,19 +45,30 @@ const CreateComplaint = () => {
 
   const onSubmit = async (data: formValues) => {
     setCargando(true);
-    try {
-      await createComplaint({
-        comments: data.comment,
-        idPurchase: data.purchaseId as Id<"purchases">,
-        idUser: data.userId as Id<"users">,
-        title: data.title,
-      });
-      setResultado("Reclamo creado");
-      setTimeout(() => setResultado(""), 3000);
-      reset();
-    } catch (error) {
+    if (data.userId === "defaultValue") {
+      setResultado("Primero elige al usuario");
       setCargando(false);
-      throw new ConvexError(`Error al crear el reclamo, error: ${error}`);
+      setTimeout(() => setResultado(""), 3000);
+    } else if (data.purchaseId === "defaultValue") {
+      setResultado("Primero elige la compra");
+      setCargando(false);
+      setTimeout(() => setResultado(""), 3000);
+    } else {
+      try {
+        await createComplaint({
+          comments: data.comment,
+          idPurchase: data.purchaseId as Id<"purchases">,
+          idUser: data.userId as Id<"users">,
+          title: data.title,
+        });
+        setCargando(false);
+        setResultado("Reclamo creado");
+        setTimeout(() => setResultado(""), 3000);
+        reset();
+      } catch (error) {
+        setCargando(false);
+        throw new ConvexError(`Error al crear el reclamo, error: ${error}`);
+      }
     }
   };
 
@@ -95,6 +106,11 @@ const CreateComplaint = () => {
                 className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40 placeholder:text-slate-500"
                 required
               />
+              {errors.title && (
+                <p className="text-xs font-medium mt-1 text-red-400">
+                  {errors.title.message}
+                </p>
+              )}
             </div>
             {/* Contenido del Reclamo */}
             <div className="space-y-1.5">
@@ -112,6 +128,11 @@ const CreateComplaint = () => {
                 className="w-full resize-none rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40 placeholder:text-slate-500"
                 required
               />
+              {errors.comment && (
+                <p className="text-xs font-medium mt-1 text-red-400">
+                  {errors.comment.message}
+                </p>
+              )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Select Usuario */}
@@ -126,8 +147,10 @@ const CreateComplaint = () => {
                   id="usuario"
                   {...register("userId")}
                   className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40"
+                  defaultValue={"defaultValue"}
                   required
                 >
+                  <option value="defaultValue">Elige un usuario</option>
                   {users?.map((user) => (
                     <option key={user._id} value={user._id}>
                       {user.name}
@@ -147,8 +170,10 @@ const CreateComplaint = () => {
                   id="compra"
                   {...register("purchaseId")}
                   className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40"
+                  defaultValue={"defaultValue"}
                   required
                 >
+                  <option value="defaultValue">Elige la compra</option>
                   {purchases?.map((purchase) => (
                     <option key={purchase._id} value={purchase._id}>
                       {purchase.product}
