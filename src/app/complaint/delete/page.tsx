@@ -30,7 +30,7 @@ const BtnDeleteComplaint: React.FC<BtnDeleteUserProps> = ({
     try {
       await deleteUser({ id: complaint._id });
     } catch (err) {
-      throw new ConvexError(`Ocurrio un error al eliminar el usuario: ${err}`);
+      throw new ConvexError(`Ocurrio un error al eliminar el reclamo: ${err}`);
     }
     onChange(true);
   };
@@ -41,7 +41,7 @@ const BtnDeleteComplaint: React.FC<BtnDeleteUserProps> = ({
           <Button
             variant="outline"
             className="inline-flex items-center gap-2 rounded-lg bg-red-500/10 px-3 py-2 text-xs font-medium text-red-300 border border-red-500/30 transition hover:bg-red-500/20 hover:border-red-400/50 hover:text-red-200"
-            title="Eliminar usuario"
+            title="Eliminar reclamo"
           >
             <svg
               className="h-4 w-4"
@@ -61,9 +61,9 @@ const BtnDeleteComplaint: React.FC<BtnDeleteUserProps> = ({
         </DialogTrigger>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Eliminar usuario</DialogTitle>
+            <DialogTitle>Eliminar reclamo</DialogTitle>
             <DialogDescription>
-              {`¿Estás seguro de eliminar el usuario '${complaint.title}'? Esta accion es irreversible`}
+              {`¿Estás seguro de eliminar el reclamo '${complaint.title}'? Esta accion es irreversible`}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={onSubmit} className="space-y-4">
