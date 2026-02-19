@@ -1,17 +1,27 @@
-import React, { useTransition } from "react";
-import { Doc } from "../../convex/_generated/dataModel";
-import { obtenerComentarios } from "@/app/actions";
+import React, { useTransition } from 'react';
 
-interface FooterAbsentTableProps {
-  onChange: (value: string[]) => void;
-  users: Doc<"usuarios">[];
-}
+import { createReports } from '@/app/actions';
+import { AssistantContent, ToolContent } from 'ai';
 
-const FooterAbsentTable: React.FC<FooterAbsentTableProps> = ({
-  onChange,
-  users,
-}) => {
+const BtnCreateSolution = () => {
   const [isPending, startTransition] = useTransition();
+  const [result, setResult] = React.useState<
+    | {
+        success: boolean;
+        text: string;
+        steps: number;
+        response: AssistantContent | ToolContent;
+        error?: undefined;
+      }
+    | {
+        success: boolean;
+        error: string;
+        text?: undefined;
+        steps?: undefined;
+        response?: undefined;
+      }
+    | null
+  >(null);
 
   return (
     <div className="flex justify-end mr-8">
@@ -20,17 +30,34 @@ const FooterAbsentTable: React.FC<FooterAbsentTableProps> = ({
           className="p-3"
           onClick={() => {
             startTransition(async () => {
-              const results = await obtenerComentarios(users);
-
-              onChange(results.comments);
+              const response = await createReports();
+              setResult(response);
             });
           }}
         >
-          Crear reporte
+          {isPending ? 'Generando...' : 'Generar Carta'}
         </button>
       </div>
+      {result && (
+        <div className="mt-4 p-4 border rounded-lg bg-gray-100">
+          <h2 className="text-lg font-bold mb-2 text-black">
+            Respuesta Generada:
+          </h2>
+          <pre className="whitespace-pre-wrap">
+            {result.success === true ? (
+              <div>{result.text}</div>
+            ) : (
+              <>
+                <div className="text-red-500 font-semibold">
+                  Error: {result.error}
+                </div>
+              </>
+            )}
+          </pre>
+        </div>
+      )}
     </div>
   );
 };
 
-export default FooterAbsentTable;
+export default BtnCreateSolution;
