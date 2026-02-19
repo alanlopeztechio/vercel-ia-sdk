@@ -1,30 +1,30 @@
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
-import Link from "next/link";
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useMutation } from 'convex/react';
+import { api } from '../../../../convex/_generated/api';
+import Link from 'next/link';
 
 export const formSchema = z.object({
   name: z
     .string()
-    .min(2, "El nombre del padre debe ser mayor a 2 caracteres")
-    .max(50, "El nombre del padre no puede ser mayor a 50 caracteres"),
+    .min(2, 'El nombre del padre debe ser mayor a 2 caracteres')
+    .max(50, 'El nombre del padre no puede ser mayor a 50 caracteres'),
   email: z.string().email(),
   password: z
     .string()
-    .min(8, "La contraseña debe tener minimo 8 caracteres")
-    .regex(/[A-Z]/, "La contraseña debe tener al menos 1 mayuscula")
-    .regex(/[1-9]/, "La contraseña debe tener al menos 1 numero"),
+    .min(8, 'La contraseña debe tener minimo 8 caracteres')
+    .regex(/[A-Z]/, 'La contraseña debe tener al menos 1 mayuscula')
+    .regex(/[1-9]/, 'La contraseña debe tener al menos 1 numero'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 export default function CrearRegistro() {
-  const [resultado, setResultado] = useState("");
+  const [resultado, setResultado] = useState('');
   const [cargando, setCargando] = useState(false);
   const createUser = useMutation(api.users.createtUser);
 
@@ -45,11 +45,11 @@ export default function CrearRegistro() {
         email: data.email,
         password: data.password,
       });
-      setResultado("✓ Registro guardado exitosamente");
+      setResultado('✓ Registro guardado exitosamente');
       reset(); // reiniciar los campos del formulario
-      setTimeout(() => setResultado(""), 3000); // simular asincronia
+      setTimeout(() => setResultado(''), 3000); // simular asincronia
     } catch (error) {
-      setResultado("✗ Error al guardar el registro");
+      setResultado('✗ Error al guardar el registro');
     }
     setCargando(false);
   };
@@ -83,7 +83,7 @@ export default function CrearRegistro() {
               <input
                 id="nameUser"
                 type="text"
-                {...register("name")}
+                {...register('name')}
                 placeholder="Ej. slash3d"
                 className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40 placeholder:text-slate-500"
               />
@@ -104,7 +104,7 @@ export default function CrearRegistro() {
               <input
                 id="emailUser"
                 type="text"
-                {...register("email")}
+                {...register('email')}
                 placeholder="Ej. hola@ejemplo.com"
                 className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40 placeholder:text-slate-500"
               />
@@ -125,7 +125,7 @@ export default function CrearRegistro() {
               <input
                 id="passwordUser"
                 type="password"
-                {...register("password")}
+                {...register('password')}
                 placeholder="Ingresa tu contraseña"
                 className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40 placeholder:text-slate-500"
               />
@@ -139,9 +139,9 @@ export default function CrearRegistro() {
             {resultado && (
               <div
                 className={`rounded-xl px-3.5 py-2.5 text-sm font-medium ${
-                  resultado.includes("✓")
-                    ? "border border-green-500/30 bg-green-500/10 text-green-400"
-                    : "border border-red-500/30 bg-red-500/10 text-red-400"
+                  resultado.includes('✓')
+                    ? 'border border-green-500/30 bg-green-500/10 text-green-400'
+                    : 'border border-red-500/30 bg-red-500/10 text-red-400'
                 }`}
               >
                 {resultado}
@@ -160,7 +160,7 @@ export default function CrearRegistro() {
                     Guardando...
                   </span>
                 ) : (
-                  "Guardar Registro"
+                  'Guardar Registro'
                 )}
               </button>
               <Link href="/">
