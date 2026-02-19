@@ -2,7 +2,7 @@
 'use server';
 
 import { generateObject, generateText, Output, stepCountIs, tool } from 'ai';
-import { google } from '@ai-sdk/google';
+import { createGoogleGenerativeAI, google } from '@ai-sdk/google';
 import { z } from 'zod';
 import { Doc, Id } from '../../convex/_generated/dataModel';
 import { fetchMutation, fetchQuery } from 'convex/nextjs';
