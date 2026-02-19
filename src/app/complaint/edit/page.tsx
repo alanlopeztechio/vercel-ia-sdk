@@ -27,7 +27,7 @@ interface BtnEditUserProps {
 
 const editSchema = z.object({
   title: z.string().min(2, "El titlo debe tener al menos 2 caracteres"),
-  comment: z.string(),
+  comment: z.string().min(10, "El comentario debe ser mayor a 10 caracteres"),
 });
 
 type FormValues = z.infer<typeof editSchema>;
@@ -74,7 +74,7 @@ const BtnEditComplaint: React.FC<BtnEditUserProps> = ({
           <Button
             className="inline-flex items-center gap-2 rounded-lg bg-blue-500/10 px-3 py-2 text-xs font-medium text-blue-300 border border-blue-500/30 transition hover:bg-blue-500/20 hover:border-blue-400/50 hover:text-blue-200"
             variant="outline"
-            title="Editar usuario"
+            title="Editar reclamo"
           >
             <svg
               className="h-4 w-4"
