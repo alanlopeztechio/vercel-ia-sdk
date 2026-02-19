@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { z } from "zod";
-import { useState } from "react";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
-import { ConvexError } from "convex/values";
-import { Id } from "../../../../convex/_generated/dataModel";
+import { z } from 'zod';
+import { useState } from 'react';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQuery } from 'convex/react';
+import { api } from '../../../../convex/_generated/api';
+import { ConvexError } from 'convex/values';
+import { Id } from '../../../../convex/_generated/dataModel';
 
 /**
  * tengo que tomar el titulo, contenido, usuarioId y compraId del select
@@ -19,10 +19,10 @@ import { Id } from "../../../../convex/_generated/dataModel";
  */
 
 const formSchema = z.object({
-  comment: z.string().min(4, "Comentario muy corto"),
+  comment: z.string().min(4, 'Comentario muy corto'),
   purchaseId: z.string(),
   userId: z.string(),
-  title: z.string().min(2, "El titulo muy corto, ingresa uno mas largo"),
+  title: z.string().min(2, 'El titulo muy corto, ingresa uno mas largo'),
 });
 
 type formValues = z.infer<typeof formSchema>;
@@ -40,30 +40,30 @@ const CreateComplaint = () => {
   } = useForm<formValues>({
     resolver: zodResolver(formSchema),
   });
-  const [resultado, setResultado] = useState("");
+  const [resultado, setResultado] = useState('');
   const [cargando, setCargando] = useState(false);
 
   const onSubmit = async (data: formValues) => {
     setCargando(true);
-    if (data.userId === "defaultValue") {
-      setResultado("Primero elige al usuario");
+    if (data.userId === 'defaultValue') {
+      setResultado('Primero elige al usuario');
       setCargando(false);
-      setTimeout(() => setResultado(""), 3000);
-    } else if (data.purchaseId === "defaultValue") {
-      setResultado("Primero elige la compra");
+      setTimeout(() => setResultado(''), 3000);
+    } else if (data.purchaseId === 'defaultValue') {
+      setResultado('Primero elige la compra');
       setCargando(false);
-      setTimeout(() => setResultado(""), 3000);
+      setTimeout(() => setResultado(''), 3000);
     } else {
       try {
         await createComplaint({
           comments: data.comment,
-          idPurchase: data.purchaseId as Id<"purchases">,
-          idUser: data.userId as Id<"users">,
+          idPurchase: data.purchaseId as Id<'purchases'>,
+          idUser: data.userId as Id<'users'>,
           title: data.title,
         });
         setCargando(false);
-        setResultado("Reclamo creado");
-        setTimeout(() => setResultado(""), 3000);
+        setResultado('Reclamo creado');
+        setTimeout(() => setResultado(''), 3000);
         reset();
       } catch (error) {
         setCargando(false);
@@ -101,7 +101,7 @@ const CreateComplaint = () => {
               <input
                 id="titulo"
                 type="text"
-                {...register("title")}
+                {...register('title')}
                 placeholder="Ej. Producto defectuoso"
                 className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40 placeholder:text-slate-500"
                 required
@@ -122,7 +122,7 @@ const CreateComplaint = () => {
               </label>
               <textarea
                 id="contenido"
-                {...register("comment")}
+                {...register('comment')}
                 rows={5}
                 placeholder="Describe detalladamente tu reclamo..."
                 className="w-full resize-none rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40 placeholder:text-slate-500"
@@ -145,9 +145,9 @@ const CreateComplaint = () => {
                 </label>
                 <select
                   id="usuario"
-                  {...register("userId")}
+                  {...register('userId')}
                   className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40"
-                  defaultValue={"defaultValue"}
+                  defaultValue={'defaultValue'}
                   required
                 >
                   <option value="defaultValue">Elige un usuario</option>
@@ -168,9 +168,9 @@ const CreateComplaint = () => {
                 </label>
                 <select
                   id="compra"
-                  {...register("purchaseId")}
+                  {...register('purchaseId')}
                   className="w-full rounded-xl border border-slate-700 bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-100 shadow-inner outline-none ring-0 transition focus:border-purple-400 focus:ring-2 focus:ring-purple-500/40"
-                  defaultValue={"defaultValue"}
+                  defaultValue={'defaultValue'}
                   required
                 >
                   <option value="defaultValue">Elige la compra</option>
@@ -186,9 +186,9 @@ const CreateComplaint = () => {
             {resultado && (
               <div
                 className={`rounded-xl px-3.5 py-2.5 text-sm font-medium ${
-                  resultado.includes("creado")
-                    ? "border border-green-500/30 bg-green-500/10 text-green-400"
-                    : "border border-red-500/30 bg-red-500/10 text-red-400"
+                  resultado.includes('creado')
+                    ? 'border border-green-500/30 bg-green-500/10 text-green-400'
+                    : 'border border-red-500/30 bg-red-500/10 text-red-400'
                 }`}
               >
                 {resultado}
@@ -207,10 +207,10 @@ const CreateComplaint = () => {
                     Enviando...
                   </span>
                 ) : (
-                  "Enviar Reclamo"
+                  'Enviar Reclamo'
                 )}
               </button>
-              <Link href="/">
+              <Link href="/complaint">
                 <button
                   type="button"
                   className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-900/60 px-4 py-2.5 text-sm font-semibold text-slate-100 shadow-lg transition hover:border-slate-600 hover:bg-slate-800/60"
